@@ -1,0 +1,14 @@
+{
+  "name": "abuzar-qasim-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "build:drafts": "node build.mjs --drafts"
+  },
+  "devDependencies": {
+    "@fontsource-variable/geist": "^5.3.0",
+    "esbuild": "^0.28.2"
+  }
+}

@@ -1,0 +1,112 @@
+[
+  {
+    "slug": "olist-sales-customer-intelligence",
+    "title": "Olist E-Commerce Analytics Platform",
+    "flagship": true,
+    "problem": "What do Olist's sales, customer and delivery data show about how the business is performing?",
+    "approach": "Loaded and cleaned the Brazilian Olist dataset, analyzed it with SQL in MySQL, and worked with it from Python using SQLAlchemy.",
+    "result": "An interactive Power BI dashboard with DAX measures covering sales, customers and delivery performance.",
+    "stack": [
+      "MySQL",
+      "Python",
+      "SQLAlchemy",
+      "Power BI"
+    ],
+    "github": "https://github.com/iabuzrqasim/ecommerce-analytics-platform"
+  },
+  {
+    "slug": "amazon-clothing-sales-dashboard",
+    "title": "Amazon Clothing Sales (Power BI)",
+    "problem": "Where does clothing revenue come from, and how do sales move over time?",
+    "approach": "Analyzed revenue trends, top categories and sales patterns in Power BI with DAX.",
+    "result": "A 3-page report on 20,960 orders.",
+    "stack": [
+      "Power BI",
+      "DAX",
+      "Power Query"
+    ],
+    "github": "https://github.com/iabuzrqasim/Power-BI-"
+  },
+  {
+    "slug": "maharat",
+    "title": "Maharat",
+    "subtitle": "Collaborative Mobile Application",
+    "status": "In Development",
+    "page": "maharat.html",
+    "summary": "We are currently working on a collaborative mobile application project."
+  },
+  {
+    "slug": "zameen-property-eda",
+    "title": "Zameen EDA",
+    "problem": "How do Pakistani property prices vary by city, property type and size?",
+    "approach": "A Python pipeline standardizing Pakistani price and area formats (Crore, Lakh, Marla, Kanal).",
+    "result": "Distribution charts, median-price comparisons and a correlation heatmap. This is descriptive analysis, not a price-prediction model.",
+    "stack": [
+      "Python",
+      "Pandas",
+      "NumPy",
+      "Matplotlib",
+      "Seaborn"
+    ],
+    "github": "https://github.com/iabuzrqasim/zameen_EDA"
+  },
+  {
+    "slug": "hospital-management-system-sql",
+    "title": "Hospital Management System (SQL)",
+    "problem": "How can a hospital's patients, doctors, appointments and billing be modeled for reporting?",
+    "approach": "Designed a relational database for the hospital, then wrote analytical SQL queries on top of it.",
+    "result": "8 related tables with analytical queries.",
+    "stack": [
+      "MySQL",
+      "SQL"
+    ],
+    "github": "https://github.com/iabuzrqasim/SQL-project"
+  },
+  {
+    "slug": "excel-sales-dashboard",
+    "title": "Excel Sales Dashboard",
+    "summary": "Pivot analysis and hypothesis checks on clothing sales data.",
+    "stack": [
+      "Excel"
+    ],
+    "github": "https://github.com/iabuzrqasim/Excel"
+  },
+  {
+    "slug": "customer-churn-prediction",
+    "title": "Customer Churn Prediction (Telco)",
+    "inProgress": true,
+    "problem": "Which customers are likely to churn, and why?",
+    "approach": "Analyzing the Telco customer dataset with MySQL and Python.",
+    "result": "",
+    "stack": [
+      "MySQL",
+      "Python"
+    ],
+    "github": "",
+    "draft": true
+  },
+  {
+    "slug": "olist-on-microsoft-fabric",
+    "draft": true,
+    "inProgress": true,
+    "title": "Olist on Microsoft Fabric",
+    "problem": "How does the Olist pipeline change when it is rebuilt as a lakehouse?",
+    "approach": "Rebuilding the Olist pipeline as a lakehouse on Microsoft Fabric, with Power BI reporting.",
+    "result": "",
+    "stack": [
+      "Microsoft Fabric",
+      "Power BI"
+    ],
+    "github": ""
+  },
+  {
+    "slug": "ml-project-2",
+    "draft": true,
+    "title": "ML Project 2",
+    "problem": "",
+    "approach": "",
+    "result": "",
+    "stack": [],
+    "github": ""
+  }
+]

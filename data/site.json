@@ -1,0 +1,24 @@
+{
+  "name": "Abuzar Qasim",
+  "role": "Data Analyst & Data Scientist",
+  "tagline": "I find the story in data, and build models that predict what happens next.",
+  "location": "Bahawalpur, Pakistan",
+  "year": 2026,
+
+  "siteUrl": "https://iabuzrqasim.github.io/Portfolio/",
+  "github": "https://github.com/iabuzrqasim",
+  "githubHandle": "iabuzrqasim",
+  "linkedin": "https://www.linkedin.com/in/abuzar-qasim-45585738b/",
+  "email": "abuzrqasim5@gmail.com",
+
+  "about": "I'm studying for a BS in Data Science at Islamia University of Bahawalpur and hold a Data Analytics certificate. I'm based in Bahawalpur, Pakistan.",
+
+  "skills": [
+    { "group": "Python", "items": ["Pandas", "NumPy", "Scikit-learn", "Matplotlib", "Seaborn", "SQLAlchemy", "Jupyter"] },
+    { "group": "Machine Learning", "items": ["Predictive modeling", "Classification", "Data modeling", "Scikit-learn"] },
+    { "group": "SQL / MySQL", "items": ["Relational database design", "Analytical queries", "Reporting"] },
+    { "group": "Power BI / DAX", "items": ["Interactive dashboards", "DAX measures"] },
+    { "group": "Excel", "items": ["Data preparation", "Analysis"] },
+    { "group": "Microsoft Fabric", "items": ["Lakehouse pipelines", "Power BI reporting"] }
+  ]
+}
