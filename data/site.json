@@ -13,6 +13,29 @@
 
   "about": "I'm studying for a BS in Data Science at Islamia University of Bahawalpur and hold a Data Analytics certificate. I'm based in Bahawalpur, Pakistan.",
 
+  "education": [
+    { "degree": "BS Data Science", "institution": "Islamia University of Bahawalpur", "years": "2024 – Present" }
+  ],
+
+  "certificates": [
+    {
+      "title": "Data Analyst Certificate",
+      "issuer": "atomcamp",
+      "date": "Nov 2025",
+      "match": "atomcamp",
+      "alt": "atomcamp Certificate of Completion for the Data Analytics Bootcamp, awarded to Abuzar Qasim, August 2025 to November 2025",
+      "verify": "https://credsverse.com/credentials/74242fd6-8d75-407b-8bc7-52e846d79ca9"
+    },
+    {
+      "title": "Certificate of Fellowship",
+      "issuer": "ClickChain Academy",
+      "detail": "12-Week Fellowship Program",
+      "date": "Jan 2026 – Mar 2026",
+      "match": "clickchain",
+      "alt": "Click Chain Academy Certificate of Fellowship for the 12-Week Fellowship Program, awarded to Abuzar Qasim, January 2026 to March 2026"
+    }
+  ],
+
   "skills": [
     { "group": "Python", "items": ["Pandas", "NumPy", "Scikit-learn", "Matplotlib", "Seaborn", "SQLAlchemy", "Jupyter"] },
     { "group": "Machine Learning", "items": ["Predictive modeling", "Classification", "Data modeling", "Scikit-learn"] },

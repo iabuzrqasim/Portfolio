@@ -1,6 +1,7 @@
 // Static site generator. Run `npm install` once, then `npm run build`.
 // Reads data/*.json, bundles src/, and writes the finished website to dist/.
 // Screenshots in assets/projects/<slug>/ appear on that project's card automatically.
+// Images and PDFs in assets/certificates/ appear in the Education section automatically.
 // `node build.mjs --drafts` also includes projects marked "draft": true.
 
 import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
@@ -12,6 +13,8 @@ import { build } from 'esbuild';
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const DIST = join(ROOT, 'dist');
 const CV_PATH = 'assets/cv/Abuzar-Qasim-CV.pdf';
+const CERT_DIR = 'assets/certificates';
+const NAV_ITEMS = [['Work', '#work'], ['Skills', '#skills'], ['About', '#about'], ['Education', '#education'], ['Contact', '#contact']];
 const readJson = (file) => JSON.parse(readFileSync(join(ROOT, file), 'utf8'));
 
 const site = readJson('data/site.json');
@@ -103,6 +106,62 @@ function projectCard(project) {
     </article>`;
 }
 
+// ---------- education and certificates ----------
+
+const isImage = (file) => /\.(png|jpe?g|webp|avif)$/i.test(file);
+const isCertFile = (file) => isImage(file) || /\.pdf$/i.test(file);
+const squash = (text) => text.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+// Pairs each file in assets/certificates/ with its entry in site.json by the entry's "match" word.
+// A file that matches no entry gets its own card, titled from the file name.
+function certificates() {
+  const folder = join(ROOT, CERT_DIR);
+  const files = existsSync(folder)
+    ? readdirSync(folder)
+      .filter(isCertFile)
+      .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
+    : [];
+  const listed = (site.certificates ?? []).map((cert) => {
+    const index = cert.match ? files.findIndex((file) => squash(file).includes(squash(cert.match))) : -1;
+    return index < 0 ? cert : { ...cert, file: files.splice(index, 1)[0] };
+  });
+  const extras = files.map((file) => ({
+    title: file.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ').trim(),
+    file,
+  }));
+  return [...listed, ...extras];
+}
+
+function certCard(cert) {
+  const href = cert.file ? `${CERT_DIR}/${encodeURIComponent(cert.file)}` : '';
+  const showImage = cert.file && isImage(cert.file);
+  const meta = [cert.issuer, cert.date].filter(Boolean).join(' · ');
+  return `
+        <article class="cred reveal">
+          ${showImage ? `<a class="cred-media" href="${href}" target="_blank" rel="noopener"><img src="${href}" alt="${esc(cert.alt ?? `${cert.title} certificate`)}" loading="lazy" decoding="async"><span class="sr-only"> (opens full size)</span></a>` : ''}
+          <div class="cred-body">
+            <p class="cred-kind">Certificate</p>
+            <h3>${esc(cert.title)}</h3>
+            ${cert.detail ? `<p class="cred-sub">${esc(cert.detail)}</p>` : ''}
+            ${meta ? `<p class="cred-meta">${esc(meta)}</p>` : ''}
+            ${href || cert.verify ? `<p class="cred-links">
+              ${href ? `<a class="project-link" href="${href}" target="_blank" rel="noopener">View certificate<span class="sr-only">: ${esc(cert.title)}</span> <span aria-hidden="true">↗</span></a>` : ''}
+              ${cert.verify ? `<a class="project-link" href="${esc(cert.verify)}" target="_blank" rel="noopener">Verify credential<span class="sr-only">: ${esc(cert.title)}</span> <span aria-hidden="true">↗</span></a>` : ''}
+            </p>` : ''}
+          </div>
+        </article>`;
+}
+
+const educationCard = (entry) => `
+        <article class="cred cred-wide reveal">
+          <div class="cred-body">
+            <p class="cred-kind">Education</p>
+            <h3>${esc(entry.degree)}</h3>
+            <p class="cred-sub">${esc(entry.institution)}</p>
+            <p class="cred-meta">${esc(entry.years)}</p>
+          </div>
+        </article>`;
+
 // Skill chips around the hero photo. Each opens a small list of tools.
 const HERO_SKILLS = [
   ['sql', 'SQL', '<ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/>', ['MySQL', 'MySQL Workbench', 'Joins & Aggregations', 'Schema Design']],
@@ -131,7 +190,6 @@ function page() {
   const base = site.siteUrl.replace(/\/$/, '');
   const ogImage = `${base}/assets/images/og-image.png`;
   const cvLink = (extra) => `<a${extra ? ` class="${extra}"` : ''} href="${CV_PATH}" download="Abuzar-Qasim-CV.pdf">Download CV</a>`;
-  const navItems = [['Work', '#work'], ['Skills', '#skills'], ['About', '#about'], ['Contact', '#contact']];
 
 
   return `<!doctype html>
@@ -171,7 +229,7 @@ function page() {
   <div class="container header-row">
     <a class="brand brand-home" href="#top">${esc(site.name)}</a>
     <nav id="site-nav" class="site-nav" aria-label="Main">
-      ${navItems.map(([label, href]) => `<a href="${href}">${label}</a>`).join('')}
+      ${NAV_ITEMS.map(([label, href]) => `<a href="${href}">${label}</a>`).join('')}
     </nav>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="nav-toggle-label">Menu</span></button>
   </div>
@@ -244,7 +302,18 @@ function page() {
     </div>
   </section>
 
-  <section class="section" id="contact" tabindex="-1">
+  <section class="section" id="education" tabindex="-1">
+    <div class="container">
+      <header class="section-head reveal">
+        <p class="eyebrow">Education</p>
+        <h2>Education &amp; Certificates</h2>
+      </header>
+      <div class="creds">${(site.education ?? []).map(educationCard).join('')}${certificates().map(certCard).join('')}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-tint" id="contact" tabindex="-1">
     <div class="container">
       <div class="contact-panel reveal">
         <p class="eyebrow">Contact</p>
@@ -296,7 +365,7 @@ function maharatPage(home) {
   <div class="container header-row">
     <a class="brand" href="index.html">${esc(site.name)}</a>
     <nav id="site-nav" class="site-nav" aria-label="Main">
-      ${[['Work', '#work'], ['Skills', '#skills'], ['About', '#about'], ['Contact', '#contact']].map(([label, href]) => `<a href="index.html${href}">${label}</a>`).join('')}
+      ${NAV_ITEMS.map(([label, href]) => `<a href="index.html${href}">${label}</a>`).join('')}
     </nav>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="nav-toggle-label">Menu</span></button>
   </div>

@@ -25,6 +25,10 @@ This writes the website to `dist/` and lists anything still missing. To preview 
 
 Put images (PNG, JPG, WebP or AVIF) in `assets/projects/<slug>/`, using the project's `slug` as the folder name, then rebuild. They appear on that card automatically, sorted by file name. A project with no images shows no image area, and its text fills the card.
 
+## Add certificates
+
+Put certificate images (PNG, JPG, WebP or AVIF) or PDFs in `assets/certificates/`, then rebuild. Use lowercase file names with hyphens. Images show on the card, and PDFs get a View certificate link. A file with `atomcamp` or `clickchain` in its name joins that existing card, and any other file gets its own card titled from the file name. Certificate details and the education entry are in `data/site.json`.
+
 ## Other content
 
 Links, the about text and skills are in `data/site.json`. The CV is at `assets/cv/Abuzar-Qasim-CV.pdf`.
