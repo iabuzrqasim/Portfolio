@@ -19,16 +19,17 @@
 
   "certificates": [
     {
-      "title": "Data Analyst Certificate",
+      "title": "Data Analytics Bootcamp",
       "issuer": "atomcamp",
-      "date": "Nov 2025",
+      "detail": "Certificate of Completion",
+      "date": "Aug 2025 – Nov 2025",
       "match": "atomcamp",
       "alt": "atomcamp Certificate of Completion for the Data Analytics Bootcamp, awarded to Abuzar Qasim, August 2025 to November 2025",
       "verify": "https://credsverse.com/credentials/74242fd6-8d75-407b-8bc7-52e846d79ca9"
     },
     {
       "title": "Certificate of Fellowship",
-      "issuer": "ClickChain Academy",
+      "issuer": "Click Chain Academy",
       "detail": "12-Week Fellowship Program",
       "date": "Jan 2026 – Mar 2026",
       "match": "clickchain",
