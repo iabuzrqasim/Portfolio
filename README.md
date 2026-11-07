@@ -27,7 +27,7 @@ Put images (PNG, JPG, WebP or AVIF) in `assets/projects/<slug>/`, using the proj
 
 ## Add certificates
 
-Put certificate images (PNG, JPG, WebP or AVIF) or PDFs in `assets/certificates/`, then rebuild. Use lowercase file names with hyphens. Images show on the card, and PDFs get a View certificate link. A file with `atomcamp` or `clickchain` in its name joins that existing card, and any other file gets its own card titled from the file name. Certificate details and the education entry are in `data/site.json`.
+Put certificate images (PNG, JPG, WebP or AVIF) or PDFs in `assets/certificates/`, then rebuild. Use lowercase file names with hyphens. Images open in a viewer from the View Certificate button, and PDFs get a View certificate link. A file with `atomcamp` or `clickchain` in its name joins that existing card, and any other file gets its own card titled from the file name. Certificate details and the education entry are in `data/site.json`.
 
 ## Other content
 

@@ -135,22 +135,36 @@ function certificates() {
 function certCard(cert) {
   const href = cert.file ? `${CERT_DIR}/${encodeURIComponent(cert.file)}` : '';
   const showImage = cert.file && isImage(cert.file);
+  const fileLink = href ? `<a class="project-link" href="${href}" target="_blank" rel="noopener">View certificate<span class="sr-only">: ${esc(cert.title)}</span> <span aria-hidden="true">↗</span></a>` : '';
+  // Images open in the viewer. Without JavaScript, or for a PDF, a plain link opens the file.
+  const viewControl = showImage
+    ? `<button class="btn cred-view" type="button" aria-haspopup="dialog" aria-label="${esc(`View certificate: ${cert.title}`)}" data-cert-src="${href}" data-cert-title="${esc(cert.title)}" data-cert-alt="${esc(cert.alt ?? `${cert.title} certificate`)}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>View Certificate</button><noscript>${fileLink}</noscript>`
+    : fileLink;
   const meta = [cert.issuer, cert.date].filter(Boolean).join(' · ');
   return `
         <article class="cred reveal">
-          ${showImage ? `<a class="cred-media" href="${href}" target="_blank" rel="noopener"><img src="${href}" alt="${esc(cert.alt ?? `${cert.title} certificate`)}" loading="lazy" decoding="async"><span class="sr-only"> (opens full size)</span></a>` : ''}
           <div class="cred-body">
             <p class="cred-kind">Certificate</p>
             <h3>${esc(cert.title)}</h3>
             ${cert.detail ? `<p class="cred-sub">${esc(cert.detail)}</p>` : ''}
             ${meta ? `<p class="cred-meta">${esc(meta)}</p>` : ''}
             ${href || cert.verify ? `<p class="cred-links">
-              ${href ? `<a class="project-link" href="${href}" target="_blank" rel="noopener">View certificate<span class="sr-only">: ${esc(cert.title)}</span> <span aria-hidden="true">↗</span></a>` : ''}
+              ${viewControl}
               ${cert.verify ? `<a class="project-link" href="${esc(cert.verify)}" target="_blank" rel="noopener">Verify credential<span class="sr-only">: ${esc(cert.title)}</span> <span aria-hidden="true">↗</span></a>` : ''}
             </p>` : ''}
           </div>
         </article>`;
 }
+
+// One viewer for every certificate. Its image has no src until a card's button opens it.
+const CERT_MODAL = `<dialog class="cert-modal" id="cert-modal" aria-label="Certificate">
+        <button class="cert-close" type="button" aria-label="Close certificate"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+        <div class="cert-stage">
+          <p class="cert-status" role="status"></p>
+          <img alt="" hidden>
+          <a class="project-link cert-full" target="_blank" rel="noopener">Open full size <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
+        </div>
+      </dialog>`;
 
 const educationCard = (entry) => `
         <article class="cred cred-wide reveal">
@@ -310,6 +324,7 @@ function page() {
       </header>
       <div class="creds">${(site.education ?? []).map(educationCard).join('')}${certificates().map(certCard).join('')}
       </div>
+      ${CERT_MODAL}
     </div>
   </section>
 

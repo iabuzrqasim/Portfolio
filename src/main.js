@@ -101,6 +101,52 @@ for (const gallery of document.querySelectorAll('.gallery')) {
   });
 }
 
+// Certificate viewer. The image is fetched only when a card's button opens it.
+const certModal = document.getElementById('cert-modal');
+if (certModal) {
+  const certImage = certModal.querySelector('img');
+  const certStatus = certModal.querySelector('.cert-status');
+  const certFull = certModal.querySelector('.cert-full');
+  let certOpener = null;
+
+  for (const button of document.querySelectorAll('.cred-view')) {
+    button.addEventListener('click', () => {
+      const { certSrc, certTitle, certAlt } = button.dataset;
+      certOpener = button;
+      certModal.setAttribute('aria-label', `${certTitle} certificate`);
+      certStatus.textContent = 'Loading certificate';
+      certImage.alt = certAlt;
+      certImage.src = certSrc;
+      certFull.href = certSrc;
+      root.style.setProperty('--scrollbar-width', `${innerWidth - root.clientWidth}px`);
+      root.classList.add('modal-open');
+      certModal.showModal();
+    });
+  }
+
+  certImage.addEventListener('load', () => {
+    certImage.hidden = false;
+    certStatus.textContent = '';
+  });
+  certImage.addEventListener('error', () => {
+    if (certImage.getAttribute('src')) certStatus.textContent = 'This image could not load. Try Open full size.';
+  });
+
+  // A click anywhere except the image or the link counts as outside.
+  certModal.addEventListener('click', (event) => {
+    if (event.target.closest('.cert-close') || !event.target.closest('img, a')) certModal.close();
+  });
+
+  // Runs for every way of closing, including Esc.
+  certModal.addEventListener('close', () => {
+    root.classList.remove('modal-open');
+    certImage.hidden = true;
+    certImage.removeAttribute('src');
+    certFull.removeAttribute('href');
+    certOpener?.focus({ preventScroll: true });
+  });
+}
+
 // Blocks fade up the first time they scroll into view.
 if (root.classList.contains('can-animate')) {
   const watcher = new IntersectionObserver((entries) => {
